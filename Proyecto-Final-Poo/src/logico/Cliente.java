@@ -6,6 +6,7 @@ public class Cliente {
 	private String nombre;
 	private String telefono;
 	private String direccion;
+	private boolean estado;
 	public String getCedula() {
 		return cedula;
 	}
@@ -36,6 +37,13 @@ public class Cliente {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+	
+	public boolean isEstado() {
+		return estado;
+	}
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 	public Cliente(String cedula, String codigo, String nombre, String telefono, String direccion) {
 		super();
 		this.cedula = cedula;
@@ -43,7 +51,9 @@ public class Cliente {
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
-	}
+		this.estado = true;
+		
+		}
 																																																																																		
 
 }

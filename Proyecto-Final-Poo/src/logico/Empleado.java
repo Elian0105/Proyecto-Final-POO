@@ -10,6 +10,7 @@ public abstract class Empleado {
 	private String contrasena;
 	private float sueldoBase;
 	private Sucursal sucursal;
+	private boolean estado;
 	public String getIdEmpleado() {
 		return idEmpleado;
 	}
@@ -58,6 +59,13 @@ public abstract class Empleado {
 	public void setSucursal(Sucursal sucursal) {
 		this.sucursal = sucursal;
 	}
+	
+	public boolean isEstado() {
+		return estado;
+	}
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 	public Empleado(String idEmpleado, String cedula, String nombreEmp, String telefono, String usuario,
 			String contrasena, float sueldoBase, Sucursal sucursal) {
 		super();
@@ -69,6 +77,8 @@ public abstract class Empleado {
 		this.contrasena = contrasena;
 		this.sueldoBase = sueldoBase;
 		this.sucursal = sucursal;
+		this.estado = true;
+		
 	}
 	public abstract float calcularSalario();
 	
