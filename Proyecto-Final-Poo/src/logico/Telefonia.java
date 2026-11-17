@@ -4,11 +4,15 @@ public class Telefonia extends Servicio {
 
 	private int minutos;
 	private boolean llamadasIlimitadas;
+	private int cantidadGB;
+	private int vigenciaDias;
+	private static final String prefijo = "TEL-";
 	
-	public Telefonia(String id, String nombre, double precio, String descripcion, int minutos, boolean llamadasIlimitadas) {
-		super(id, nombre, precio, descripcion);
+	public Telefonia(String nombre, float precio, String descripcion, int minutos, boolean llamadasIlimitadas, int cantidadGB, int vigenciaDias) {
+		super(prefijo, Altice.getGeneradorServicioTelefono(), nombre, precio, descripcion);
 		this.minutos = minutos;
 		this.llamadasIlimitadas = llamadasIlimitadas;
+		this.cantidadGB = cantidadGB;
 	}
 	
 	
@@ -32,8 +36,16 @@ public class Telefonia extends Servicio {
 	}
 
 	@Override
-	public double calcularPrecio() {
-		return 0;
+	public float calcularPrecio() {
+		return getPrecio();
+	}
+
+
+	@Override
+	public boolean esValido() {
+		
+		return getPrecio() >= 0 && getNombre() != null && !getNombre().trim().isEmpty() && minutos >= 0 && cantidadGB >= 0 && 
+				(minutos > 0 || cantidadGB > 0) && vigenciaDias > 0;
 	}
 	
 }

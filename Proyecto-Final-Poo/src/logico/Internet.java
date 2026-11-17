@@ -5,15 +5,14 @@ public class Internet extends Servicio {
 	private String tipo;
 	private int velocidadSubida;
 	private int velocidadBajada;
-	private int cantidadGB; //solo para datos moviles, sino seria 0 para el internet fijo
+	private static final String prefijo = "INT-";
 	
 	
-	public Internet(String id, String nombre, double precio, String descripcion, String tipo, int velocidadSubida, int velocidadBajada, int cantidadGB) {
-		super(id, nombre, precio, descripcion);
+	public Internet(String nombre, float precio, String descripcion, String tipo, int velocidadSubida, int velocidadBajada) {
+		super(prefijo, Altice.getGeneradorServicioInternet(), nombre, precio, descripcion);
 		this.tipo = tipo;
 		this.velocidadSubida = velocidadSubida;
 		this.velocidadBajada = velocidadBajada;
-		this.cantidadGB = cantidadGB;
 	}
 
 	public String getTipo() {
@@ -40,17 +39,16 @@ public class Internet extends Servicio {
 		this.velocidadBajada = velocidadBajada;
 	}
 
-	public int getCantidadGB() {
-		return cantidadGB;
-	}
-
-	public void setCantidadGB(int cantidadGB) {
-		this.cantidadGB = cantidadGB;
+	@Override
+	public float calcularPrecio() {
+		return getPrecio();
 	}
 
 	@Override
-	public double calcularPrecio() {
-		return 0;
+	public boolean esValido() {
+		
+		return getNombre() != null && !getNombre().trim().isEmpty() && getPrecio() >= 0 && velocidadSubida > 0 && velocidadBajada > 0
+			&& velocidadSubida < velocidadBajada;
 	}
 
 	

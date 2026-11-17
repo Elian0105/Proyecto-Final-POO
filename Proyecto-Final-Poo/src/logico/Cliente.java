@@ -1,5 +1,7 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class Cliente {
 	private String cedula;
 	private String codigo;
@@ -7,6 +9,15 @@ public class Cliente {
 	private String telefono;
 	private String direccion;
 	private boolean estado;
+	private ArrayList<Contrato> contratos;
+	
+	
+	public ArrayList<Contrato> getContratos() {
+		return contratos;
+	}
+	public void setContratos(ArrayList<Contrato> contratos) {
+		this.contratos = contratos;
+	}
 	public String getCedula() {
 		return cedula;
 	}
@@ -52,8 +63,22 @@ public class Cliente {
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.estado = true;
+		contratos = new ArrayList<>();
 		
 		}
+	
+	public boolean tieneContratosActivos()
+	{
+		for(Contrato aux : contratos)
+		{
+			if(aux != null && aux.isEstado())
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 																																																																																		
 
 }

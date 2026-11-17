@@ -5,9 +5,10 @@ public class Television extends Servicio{
 	private int cantCanales;
 	private String tipoConexion; //Fibra o Satelital
 	private int canalesHD;
+	private static final String prefijo = "TV-";
 	
-	public Television(String id, String nombre, double precio, String descripcion, int cantCanales, String tipoConexion, int canalesHD) {
-		super(id, nombre, precio, descripcion);
+	public Television(String nombre, float precio, String descripcion, int cantCanales, String tipoConexion, int canalesHD) {
+		super(prefijo, Altice.getGeneradorServicioTv(), nombre, precio, descripcion);
 		
 		this.cantCanales = cantCanales;
 		this.tipoConexion = tipoConexion;
@@ -34,9 +35,15 @@ public class Television extends Servicio{
 	}
 
 	@Override
-	public double calcularPrecio() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float calcularPrecio() {
+		return getPrecio();
+	}
+
+	@Override
+	public boolean esValido() {
+
+		return getPrecio() >= 0 && getNombre() != null && !getNombre().trim().isEmpty() && 
+		cantCanales > 0 && tipoConexion != null && !tipoConexion.trim().isEmpty() && canalesHD >= 0 && canalesHD <= cantCanales;
 	}
 	
 	

@@ -4,27 +4,37 @@ public abstract class Servicio {
 
 	protected String id;
 	protected String nombre;
-	protected double precio;
+	protected float precio;
 	protected String descripcion;
+	protected boolean estado;
 	
-	public Servicio(String id, String nombre, double precio, String descripcion) {
+	public Servicio(String prefijo, int num, String nombre, float precio, String descripcion) {
 		super();
-		this.id = id;
+		this.id = Altice.generarCodigo(prefijo, num);
 		this.nombre = nombre;
 		this.precio = precio;
 		this.descripcion = descripcion;
-	}
+		this.estado = true;
+	}	
 	
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public double getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
-	public void setPrecio(double precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 	public String getDescripcion() {
@@ -39,6 +49,8 @@ public abstract class Servicio {
 		return id;
 	}
 
-	public abstract double calcularPrecio();
+	public abstract float calcularPrecio();
+	
+	public abstract boolean esValido();
 	
 }

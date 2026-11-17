@@ -8,12 +8,13 @@ public class Plan {
 	private String id;
 	private String nombre;
 	private String descripcion;
-	private double descuento;
+	private float descuento;
 	private int duracionMeses;
+	private static final String prefijo = "PLA-";
 	
-	public Plan(String id, String nombre, String descripcion, double descuento, int duracionMeses) {
+	public Plan(String nombre, String descripcion, float descuento, int duracionMeses) {
 		super();
-		this.id = id;
+		this.id = Altice.generarCodigo(prefijo, Altice.getGeneradorPlan());
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.descuento = descuento;
@@ -42,10 +43,10 @@ public class Plan {
 		this.descripcion = descripcion;
 	}
 	
-	public double getDescuento() {
+	public float getDescuento() {
 		return descuento;
 	}
-	public void setDescuento(double descuento) {
+	public void setDescuento(float descuento) {
 		this.descuento = descuento;
 	}
 	public int getDuracionMeses() {
@@ -55,6 +56,29 @@ public class Plan {
 		this.duracionMeses = duracionMeses;
 	}
 	
+	public boolean agregarServicio(Servicio servicio)
+	{
+		if(servicio == null || servicio.getPrecio() < 0)
+		{
+			return false;
+		}
+		
+		boolean confirmacion = servicios.add(servicio);
+		
+		return confirmacion;
+	}
 	
-	
+	public float calcularPrecio()
+	{
+		float precio = 0;
+		
+		for(Servicio aux : servicios)
+		{
+			precio += aux.getPrecio();
+		}
+		
+		float total = precio - (precio * descuento / 100);
+		
+		return total;
+	}
 }
