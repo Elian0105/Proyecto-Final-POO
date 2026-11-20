@@ -1,18 +1,19 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 
-public class Altice {
+public class Altice implements Serializable {
+	private static Altice altice;
+	private static Empleado loginUser;
 	private ArrayList<Empleado> misEmpleados;
-	private ArrayList<Sucursal> misSucursales;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Servicio> misServicios;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Contrato> misContratos;
 	private ArrayList<Factura> misFacturas;
 	public static int generadorEmpleado = 1;
-	public static int generadorSucursal = 1;
 	public static int generadorCliente = 1;
 	private static int generadorContrato = 1;
 	private static int generadorPlan = 1;
@@ -82,12 +83,6 @@ public class Altice {
 	public void setMisContratos(ArrayList<Contrato> misContratos) {
 		this.misContratos = misContratos;
 	}
-	public ArrayList<Sucursal> getMisSucursales() {
-		return misSucursales;
-	}
-	public void setMisSucursales(ArrayList<Sucursal> misSucursales) {
-		this.misSucursales = misSucursales;
-	}
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
 	}
@@ -106,73 +101,34 @@ public class Altice {
 	public void setMisPlanes(ArrayList<Plan> misPlanes) {
 		this.misPlanes = misPlanes;
 	}
-	public Altice() {
+	
+	public static Altice getAltice() {
+		return altice;
+	}
+	public static void setAltice(Altice altice) {
+		Altice.altice = altice;
+	}
+	public static Empleado getLoginUser() {
+		return loginUser;
+	}
+	public static void setLoginUser(Empleado loginUser) {
+		Altice.loginUser = loginUser;
+	}
+	private Altice() {
 		super();
 
 		misEmpleados = new ArrayList<>();
-		misSucursales = new ArrayList<>();
 		misClientes = new ArrayList<>();
 		misServicios = new ArrayList<>();
 		misPlanes = new ArrayList<>();
 		misContratos = new ArrayList<>();
 		misFacturas = new ArrayList<>();
 	}
-	
-	public void registrarSucursal(Sucursal suc) {
-		
-		misSucursales.add(suc);
-		generadorSucursal++;
-	}
-	
-	public Sucursal buscarSucursal(String idSuc) {
-		
-		int i = 0;
-		boolean encontrado = false;
-		Sucursal aux = null;
-		
-		while(encontrado == false && i < misSucursales.size()) {
-			
-			if(misSucursales.get(i).getIdSucursal().equalsIgnoreCase(idSuc)) {
-				
-				aux = misSucursales.get(i);
-				encontrado = true;
-			}
-			i++;
+	public static Altice getInstance() {
+		if(altice == null) {
+			altice = new Altice();
 		}
-		return aux;
-	}
-	
-	public boolean modificarSucursal(Sucursal suc) {
-		
-		int i = 0;
-		boolean encontrado = false;
-		while(encontrado == false && i < misSucursales.size()) {
-			
-			if(misSucursales.get(i).getIdSucursal().equalsIgnoreCase(suc.getIdSucursal())) {
-				
-				misSucursales.set(i, suc);
-				encontrado = true;
-			}
-			i++;
-		}
-		return encontrado;
-	}
-	
-	public boolean eliminarSucursal(String idSuc) {
-		
-		int i = 0;
-		boolean encontrado = false;
-		while(encontrado == false && i < misSucursales.size()) {
-			
-			if(misSucursales.get(i).getIdSucursal().equalsIgnoreCase(idSuc)) {
-				
-				misSucursales.remove(i);
-				encontrado = true;
-			}
-			i++;
-		}
-		
-		return encontrado;
+		return altice;
 	}
 	
 	public void registrarEmpleado(Empleado emp) {
@@ -224,6 +180,7 @@ public class Altice {
 			if(misEmpleados.get(i).getIdEmpleado().equalsIgnoreCase(idEmp)) {
 				
 				misEmpleados.get(i).setEstado(false);
+				misEmpleados.get(i).setFechaSalida(new Date());
 				encontrado = true;
 			}
 			i++;
@@ -239,6 +196,7 @@ public class Altice {
 			if(misEmpleados.get(i).getIdEmpleado().equalsIgnoreCase(idEmp)) {
 				
 				misEmpleados.get(i).setEstado(true);
+				misEmpleados.get(i).setFechaSalida(null);
 				encontrado = true;
 			}
 			i++;
@@ -258,6 +216,7 @@ public class Altice {
 			if(misEmpleados.get(i).getUsuario().equals(usuario) && misEmpleados.get(i).getContrasena().equals(contrasena) && misEmpleados.get(i).isEstado() == true) {
 				
 				aux = misEmpleados.get(i);
+				loginUser = misEmpleados.get(i);
 				encontrado = true;
 			}
 			i++;

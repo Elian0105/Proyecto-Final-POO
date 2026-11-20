@@ -1,7 +1,13 @@
 package logico;
 
+import java.util.Date;
+
 public class Comercial extends Empleado {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int cantContratos;
 	private float comisionPorContrato;
 	
@@ -26,13 +32,17 @@ public class Comercial extends Empleado {
 	}
 	
 
-	public Comercial(String idEmpleado, String cedula, String nombreEmp, String telefono, String usuario,
-			String contrasena, float sueldoBase, Sucursal sucursal,float comisionPorContrato) {
-		super(idEmpleado, cedula, nombreEmp, telefono, usuario, contrasena, sueldoBase, sucursal);
-		this.cantContratos = 0;
-		this.comisionPorContrato = comisionPorContrato;
-	}
 	
+	public Comercial(String cedula, String nombre, String telefono, String correo, String direccion,
+			Date fechaNacimiento, String idEmpleado, String usuario, String contrasena, float sueldoBase, String puesto,
+			String sucursal, Date fechaIngreso, float comisionPorContrato) {
+		super(cedula, nombre, telefono, correo, direccion, fechaNacimiento, idEmpleado, usuario, contrasena, sueldoBase,
+				puesto, sucursal, fechaIngreso);
+		this.comisionPorContrato = comisionPorContrato;
+		this.cantContratos = 0;
+	}
+
+
 	public void agregarContrato() {
 		
 		setCantContratos(getCantContratos()+1);

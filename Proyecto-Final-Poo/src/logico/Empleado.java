@@ -1,39 +1,52 @@
 package logico;
 
-public abstract class Empleado {
+import java.util.Date;
+
+public class Empleado extends Persona{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String idEmpleado;
-	private String cedula;
-	private String nombreEmp;
-	private String telefono;
 	private String usuario;
 	private String contrasena;
 	private float sueldoBase;
-	private Sucursal sucursal;
 	private boolean estado;
+	private String puesto;
+	private String sucursal;
+	private Date fechaIngreso;
+	private Date fechaSalida;
+	
+	public String getPuesto() {
+		return puesto;
+	}
+	public void setPuesto(String puesto) {
+		this.puesto = puesto;
+	}
+	public String getSucursal() {
+		return sucursal;
+	}
+	public void setSucursal(String sucursal) {
+		this.sucursal = sucursal;
+	}
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
+	}
+	public Date getFechaSalida() {
+		return fechaSalida;
+	}
+	public void setFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
 	public String getIdEmpleado() {
 		return idEmpleado;
 	}
 	public void setIdEmpleado(String idEmpleado) {
 		this.idEmpleado = idEmpleado;
-	}
-	public String getCedula() {
-		return cedula;
-	}
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-	public String getNombreEmp() {
-		return nombreEmp;
-	}
-	public void setNombreEmp(String nombreEmp) {
-		this.nombreEmp = nombreEmp;
-	}
-	public String getTelefono() {
-		return telefono;
-	}
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
 	}
 	public String getUsuario() {
 		return usuario;
@@ -53,35 +66,32 @@ public abstract class Empleado {
 	public void setSueldoBase(float sueldoBase) {
 		this.sueldoBase = sueldoBase;
 	}
-	public Sucursal getSucursal() {
-		return sucursal;
-	}
-	public void setSucursal(Sucursal sucursal) {
-		this.sucursal = sucursal;
-	}
-	
 	public boolean isEstado() {
 		return estado;
 	}
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-	public Empleado(String idEmpleado, String cedula, String nombreEmp, String telefono, String usuario,
-			String contrasena, float sueldoBase, Sucursal sucursal) {
-		super();
+	
+	
+	
+	public Empleado(String cedula, String nombre, String telefono, String correo, String direccion,
+			Date fechaNacimiento, String idEmpleado, String usuario, String contrasena, float sueldoBase, String puesto,
+			String sucursal, Date fechaIngreso) {
+		super(cedula, nombre, telefono, correo, direccion, fechaNacimiento);
 		this.idEmpleado = idEmpleado;
-		this.cedula = cedula;
-		this.nombreEmp = nombreEmp;
-		this.telefono = telefono;
 		this.usuario = usuario;
 		this.contrasena = contrasena;
 		this.sueldoBase = sueldoBase;
+		this.puesto = puesto;
 		this.sucursal = sucursal;
+		this.fechaIngreso = fechaIngreso;
 		this.estado = true;
-		
+		this.fechaSalida = null;
 	}
-	public abstract float calcularSalario();
+	public float calcularSalario() {
+		
+		return getSueldoBase();
+	}
 	
-	
-
-} 
+}

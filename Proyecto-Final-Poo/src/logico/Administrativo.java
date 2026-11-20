@@ -1,7 +1,13 @@
 package logico;
 
+import java.util.Date;
+
 public class Administrativo extends Empleado {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String departamento;
 	private float bono;
 	
@@ -26,9 +32,13 @@ public class Administrativo extends Empleado {
 	}
 	
 
-	public Administrativo(String idEmpleado, String cedula, String nombreEmp, String telefono, String usuario,
-			String contrasena, float sueldoBase, Sucursal sucursal, String departamento, float bono) {
-		super(idEmpleado, cedula, nombreEmp, telefono, usuario, contrasena, sueldoBase, sucursal);
+
+
+	public Administrativo(String cedula, String nombre, String telefono, String correo, String direccion,
+			Date fechaNacimiento, String idEmpleado, String usuario, String contrasena, float sueldoBase, String puesto,
+			String sucursal, Date fechaIngreso, String departamento, float bono) {
+		super(cedula, nombre, telefono, correo, direccion, fechaNacimiento, idEmpleado, usuario, contrasena, sueldoBase,
+				puesto, sucursal, fechaIngreso);
 		this.departamento = departamento;
 		this.bono = bono;
 	}
