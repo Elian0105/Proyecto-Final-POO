@@ -10,6 +10,7 @@ public class Contrato {
 	private Date fechaInicializacion;
 	private boolean estado;
 	private float precioMensual;
+	
 	private static final String prefijo = "CON-";
 	
 	public Contrato(Cliente cliente, Plan plan) {
