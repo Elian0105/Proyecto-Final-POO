@@ -10,6 +10,7 @@ public class Cliente {
 	private String direccion;
 	private boolean estado;
 	private ArrayList<Contrato> contratos;
+	private ArrayList<Factura> facturas;
 	
 	
 	public ArrayList<Contrato> getContratos() {
@@ -78,6 +79,21 @@ public class Cliente {
 		}
 		
 		return false;
+	}
+	
+	public int facturasPendiente()
+	{
+		int pendiente = 0;
+		
+		for(Factura aux : facturas)
+		{
+			if(!aux.isPagado())
+			{
+				pendiente++;
+			}
+		}
+		
+		return pendiente;
 	}
 																																																																																		
 

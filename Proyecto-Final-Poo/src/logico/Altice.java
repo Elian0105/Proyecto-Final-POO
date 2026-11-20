@@ -1,6 +1,7 @@
 package logico;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Altice {
 	private ArrayList<Empleado> misEmpleados;
@@ -545,5 +546,67 @@ public class Altice {
 		
 		return factura.pagar();
 	}
-
+	
+	public ArrayList<Internet> listaServiciosInternet()
+	{
+		ArrayList<Internet> lista = new ArrayList<>();
+		
+		for(Servicio aux : misServicios)
+		{
+			if(aux instanceof Internet)
+			{
+				Internet actual = (Internet) aux;
+				
+				lista.add(actual);
+			}
+		}
+		
+		return lista;
+	}
+	
+	public ArrayList<Telefonia> listaServiciosTelefonia()
+	{
+		ArrayList<Telefonia> lista = new ArrayList<>();
+		
+		for(Servicio aux : misServicios)
+		{
+			if(aux instanceof Telefonia)
+			{
+				Telefonia actual = (Telefonia) aux;
+				
+				lista.add(actual);
+			}
+		}
+		
+		return lista;
+	}
+	
+	public ArrayList<Television> listaServiciosTelevision()
+	{
+		ArrayList<Television> lista = new ArrayList<>();
+		
+		for(Servicio aux : misServicios)
+		{
+			if(aux instanceof Television)
+			{
+				Television actual = (Television) aux;
+				
+				lista.add(actual);
+			}
+		}
+		
+		return lista;
+	}
+	
+	public int facturaPendienteCliente(String id)
+	{
+		Cliente cliente = buscarCliente(id);
+		
+		if(cliente == null)
+		{
+			return 0;
+		}
+		
+		return cliente.facturasPendiente();
+	}
 }
