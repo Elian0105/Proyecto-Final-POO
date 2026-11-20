@@ -37,6 +37,12 @@ public class Cliente extends Persona {
 	}
 	
 	
+	public ArrayList<Factura> getFacturas() {
+		return facturas;
+	}
+	public void setFacturas(ArrayList<Factura> facturas) {
+		this.facturas = facturas;
+	}
 	public Cliente(String cedula, String nombre, String telefono, String correo, String direccion, Date fechaNacimiento,
 			String codigo) {
 		super(cedula, nombre, telefono, correo, direccion, fechaNacimiento);

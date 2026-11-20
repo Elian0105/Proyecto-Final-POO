@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Altice implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private static Altice altice;
 	private static Empleado loginUser;
 	private ArrayList<Empleado> misEmpleados;
