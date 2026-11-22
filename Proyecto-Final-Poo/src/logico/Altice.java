@@ -1,6 +1,7 @@
 package logico;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -422,14 +423,19 @@ public class Altice implements Serializable {
 		return true;
 	}
 	
-	public boolean contratarPlanes(Cliente cliente, Plan plan)
+	public boolean contratarPlanes(Cliente cliente, Plan plan, Comercial comercial)
 	{
 		if(cliente == null || !cliente.isEstado())
 		{
 			return false;
 		}
 		
-		if(buscarCliente(cliente.getCedula()) == null)
+		if(buscarCliente(cliente.getCedula()) != cliente)
+		{
+			return false;
+		}
+		
+		if(!cliente.puedeContratar())
 		{
 			return false;
 		}
@@ -439,11 +445,22 @@ public class Altice implements Serializable {
 			return false;
 		}
 		
-		Contrato contrato = new Contrato(cliente, plan);
+		if(comercial == null || !comercial.isEstado())
+		{
+			return false;
+		}
+		
+		if(buscarEmpleado(comercial.getIdEmpleado()) != comercial)
+		{
+			return false;
+		}
+		
+		Contrato contrato = new Contrato(cliente, plan, comercial);
 		
 		
 		misContratos.add(contrato);
 		cliente.getContratos().add(contrato);
+		comercial.agregarContrato();
 		generadorContrato++;
 		
 		return true;
@@ -469,7 +486,20 @@ public class Altice implements Serializable {
 		return factura;
 	}
 	
-	public boolean generarFactura(Contrato contrato, String sucursal)
+	public boolean existeFacturaPeriodo(Contrato contrato, String periodo)
+	{
+		for(Factura aux : misFacturas)
+		{
+			if(aux.getContrato() == contrato && aux.getPeriodo().equalsIgnoreCase(periodo))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean generarFactura(Contrato contrato, String sucursal, String periodo)
 	{
 		if(contrato == null || !contrato.isEstado())
 		{
@@ -491,12 +521,51 @@ public class Altice implements Serializable {
 			return false;
 		}
 		
-		Factura factura = new Factura(contrato, sucursal);
+		if(periodo == null)
+		{
+			return false;
+		}
+		
+		if(existeFacturaPeriodo(contrato, periodo))
+		{
+			return false;
+		}
+		
+		Factura factura = new Factura(contrato, sucursal, periodo);
 		
 		misFacturas.add(factura);
+		contrato.getCliente().getFacturas().add(factura);
 		generadorFacturas++;
 		
+		Cliente cliente = contrato.getCliente();
+		
+		if(cliente.facturasPendientesContrato(contrato) >= 2)
+		{
+			contrato.setEstado(false);
+		}
+		
 		return true;
+	}
+	
+	public int generarFacturas(String sucursal)
+	{
+		int contador = 0;
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM");
+		String periodo = formato.format(new Date());
+		
+		for(Contrato aux : misContratos)
+		{
+			if(aux.isEstado())
+			{
+				if(generarFactura(aux, sucursal, periodo))
+				{
+					contador++;
+				}
+			}
+		}
+		
+		return contador;
 	}
 	
 	public boolean pagarFactura(String id)

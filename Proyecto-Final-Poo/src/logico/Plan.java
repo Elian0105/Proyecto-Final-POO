@@ -74,7 +74,7 @@ public class Plan {
 		
 		for(Servicio aux : servicios)
 		{
-			precio += aux.getPrecio();
+			precio += aux.calcularPrecio();
 		}
 		
 		float total = precio - (precio * descuento / 100);

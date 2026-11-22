@@ -12,12 +12,32 @@ public class Telefonia extends Servicio {
 		super(prefijo, Altice.getGeneradorServicioTelefono(), nombre, precio, descripcion);
 		this.minutos = minutos;
 		this.llamadasIlimitadas = llamadasIlimitadas;
+		this.vigenciaDias = vigenciaDias;
 		this.cantidadGB = cantidadGB;
 	}
 	
 	
 	public int getMinutos() {
 		return minutos;
+	}
+
+	public int getCantidadGB() {
+		return cantidadGB;
+	}
+
+
+	public void setCantidadGB(int cantidadGB) {
+		this.cantidadGB = cantidadGB;
+	}
+
+
+	public int getVigenciaDias() {
+		return vigenciaDias;
+	}
+
+
+	public void setVigenciaDias(int vigenciaDias) {
+		this.vigenciaDias = vigenciaDias;
 	}
 
 

@@ -8,21 +8,28 @@ public class Contrato {
 	private Cliente cliente;
 	private Plan plan;
 	private Date fechaInicializacion;
+	private Comercial comercial;
 	private boolean estado;
 	private float precioMensual;
 	
 	private static final String prefijo = "CON-";
 	
-	public Contrato(Cliente cliente, Plan plan) {
+	public Contrato(Cliente cliente, Plan plan, Comercial comercial) {
 		super();
 		this.id = Altice.generarCodigo(prefijo, Altice.getGeneradorContrato());
 		this.cliente = cliente;
 		this.fechaInicializacion = new Date();
 		this.estado = true;
+		this.comercial = comercial;
 		this.plan = plan;
 		this.precioMensual = plan.calcularPrecio();
 	}
 		
+	
+	public Comercial getComercial() {
+		return comercial;
+	}
+	
 	public float getPrecioMensual() {
 		return precioMensual;
 	}

@@ -13,13 +13,15 @@ public class Factura {
 	private float itbis;
 	private float total;
 	private boolean pagado;
+	private String periodo;
 	private static final String prefijo = "FAC-";
 	
-	public Factura(Contrato contrato, String sucursal) {
+	public Factura(Contrato contrato, String sucursal, String periodo) {
 		super();
 		this.id = Altice.generarCodigo(prefijo, Altice.getGeneradorFacturas());
 		this.fecha = new Date();
 		this.contrato = contrato;
+		this.periodo = periodo;
 		this.sucursal = sucursal;
 		this.pagado = false;
 		
@@ -66,6 +68,14 @@ public class Factura {
 		return pagado;
 	}
 	
+	public String getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+
 	public void calcularTotal()
 	{
 		subtotal = contrato.getPrecioMensual();

@@ -117,4 +117,34 @@ public class Cliente extends Persona {
 
 		return permitido;
 	}
+	
+	public int facturasPendientesContrato(Contrato contrato)
+	{
+		int contador = 0;
+		
+		for(Factura aux : facturas)
+		{
+			if(aux.getContrato() == contrato && !aux.isPagado())
+			{
+				contador++;
+			}
+		}
+		
+		return contador;
+	}
+	
+	public float calcularDeudaPendiente()
+	{
+		float total = 0;
+		
+		for(Factura aux : facturas)
+		{
+			if(!aux.isPagado())
+			{
+				total += aux.getTotal();
+			}
+		}
+		
+		return total;
+	}
 }
