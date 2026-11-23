@@ -2,6 +2,8 @@ package visual;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -9,6 +11,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.ListSelectionModel;
@@ -30,16 +33,20 @@ public class PanelPlanesServicios extends JPanel {
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Planes y servicios");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
-		lblNewLabel.setBounds(35, 20, 400, 40);
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 28));
+		lblNewLabel.setBounds(30, 20, 400, 45);
 		add(lblNewLabel);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setFont(new Font("Arial", Font.PLAIN, 15));
-		tabbedPane.setBounds(35, 115, 920, 485);
+		tabbedPane.setBorder(null);
+		tabbedPane.setForeground(Color.BLACK);
+		tabbedPane.setBackground(Color.WHITE);
+		tabbedPane.setFont(new Font("Arial", Font.BOLD, 15));
+		tabbedPane.setBounds(30, 130, 940, 480);
 		add(tabbedPane);
 		
 		JPanel panelPlanes = new JPanel();
+		panelPlanes.setBorder(null);
 		panelPlanes.setBackground(Color.WHITE);
 		tabbedPane.addTab("Planes", null, panelPlanes, null);
 		panelPlanes.setLayout(null);
@@ -60,23 +67,23 @@ public class PanelPlanesServicios extends JPanel {
 		btnNuevoPlan.setBorderPainted(false);
 		btnNuevoPlan.setFocusPainted(false);
 		
-		btnNuevoPlan.setBounds(650, 20, 210, 42);
+		btnNuevoPlan.setBounds(20, 20, 190, 45);
 		panelPlanes.add(btnNuevoPlan);
 		
 		JButton btnEliminarPlan = new JButton("Eliminar");
 		btnEliminarPlan.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnEliminarPlan.setForeground(Color.BLACK);
 		btnEliminarPlan.setBackground(Color.WHITE);
-		btnEliminarPlan.setBounds(500, 20, 135, 42);
+		btnEliminarPlan.setBounds(225, 20, 150, 45);
 		panelPlanes.add(btnEliminarPlan);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(25, 90, 870, 342);
+		scrollPane.setBounds(20, 85, 895, 335);
 		panelPlanes.add(scrollPane);
 		
 		tablePlanes = new JTable();
 		tablePlanes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablePlanes.setFont(new Font("Arial", Font.PLAIN, 15));
+		tablePlanes.setFont(new Font("Arial", Font.PLAIN, 14));
 		tablePlanes.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -91,30 +98,41 @@ public class PanelPlanesServicios extends JPanel {
 				return columnEditables[column];
 			}
 		});
-		
-		tablePlanes.setRowHeight(30);
-		tablePlanes.getColumnModel().getColumn(0).setPreferredWidth(110);
+		tablePlanes.getColumnModel().getColumn(0).setPreferredWidth(120);
 		tablePlanes.getColumnModel().getColumn(0).setMinWidth(80);
 		tablePlanes.getColumnModel().getColumn(0).setMaxWidth(180);
-		tablePlanes.getColumnModel().getColumn(1).setPreferredWidth(190);
+		tablePlanes.getColumnModel().getColumn(1).setPreferredWidth(200);
 		tablePlanes.getColumnModel().getColumn(1).setMinWidth(120);
 		tablePlanes.getColumnModel().getColumn(1).setMaxWidth(300);
-		tablePlanes.getColumnModel().getColumn(2).setPreferredWidth(250);
+		tablePlanes.getColumnModel().getColumn(2).setPreferredWidth(260);
 		tablePlanes.getColumnModel().getColumn(2).setMinWidth(150);
 		tablePlanes.getColumnModel().getColumn(2).setMaxWidth(400);
-		tablePlanes.getColumnModel().getColumn(3).setPreferredWidth(120);
+		tablePlanes.getColumnModel().getColumn(3).setPreferredWidth(130);
 		tablePlanes.getColumnModel().getColumn(3).setMinWidth(90);
 		tablePlanes.getColumnModel().getColumn(3).setMaxWidth(180);
-		tablePlanes.getColumnModel().getColumn(4).setPreferredWidth(180);
+		tablePlanes.getColumnModel().getColumn(4).setPreferredWidth(185);
 		tablePlanes.getColumnModel().getColumn(4).setMinWidth(120);
 		tablePlanes.getColumnModel().getColumn(4).setMaxWidth(250);
+		
+		tablePlanes.setRowHeight(40);
 		scrollPane.setViewportView(tablePlanes);
 		
 		JTableHeader encabezado = tablePlanes.getTableHeader();
 		
 		encabezado.setBackground(Color.BLACK);
 		encabezado.setForeground(Color.WHITE);
-		encabezado.setFont(new Font("Arial", Font.PLAIN, 15));
+		encabezado.setFont(new Font("Arial Black", Font.BOLD, 17));
+		encabezado.setPreferredSize(new Dimension(895, 35));
+		
+		DefaultTableCellRenderer rendererPlanes = new DefaultTableCellRenderer();
+		
+		rendererPlanes.setBackground(Color.BLACK);
+		rendererPlanes.setForeground(Color.WHITE);
+		rendererPlanes.setHorizontalAlignment(JLabel.CENTER);
+		rendererPlanes.setBorder(null);
+		encabezado.setOpaque(true);
+		
+		encabezado.setDefaultRenderer(rendererPlanes);
 		
 		JPanel panelServicios = new JPanel();
 		panelServicios.setBackground(Color.WHITE);
@@ -136,21 +154,25 @@ public class PanelPlanesServicios extends JPanel {
 		btnNuevoServicio.setContentAreaFilled(true);
 		btnNuevoServicio.setBorderPainted(false);
 		btnNuevoServicio.setFocusPainted(false);
-		btnNuevoServicio.setBounds(650, 20, 210, 42);
+		btnNuevoServicio.setBounds(20, 20, 210, 45);
 		panelServicios.add(btnNuevoServicio);
 		
 		JButton btnEliminarServicio = new JButton("Eliminar");
 		btnEliminarServicio.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnEliminarServicio.setForeground(Color.BLACK);
 		btnEliminarServicio.setBackground(Color.WHITE);
-		btnEliminarServicio.setBounds(500, 20, 135, 42);
+		btnEliminarServicio.setBounds(245, 20, 150, 45);
 		panelServicios.add(btnEliminarServicio);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(25, 90, 870, 342);
+		scrollPane_1.setBounds(20, 85, 895, 335);
 		panelServicios.add(scrollPane_1);
 		
 		tableServicios = new JTable();
+		tableServicios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableServicios.setShowVerticalLines(false);
+		tableServicios.setShowHorizontalLines(false);
+		tableServicios.setFont(new Font("Arial", Font.PLAIN, 14));
 		tableServicios.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -179,22 +201,33 @@ public class PanelPlanesServicios extends JPanel {
 		tableServicios.getColumnModel().getColumn(3).setMaxWidth(500);
 		scrollPane_1.setViewportView(tableServicios);
 		
-		tableServicios.setRowHeight(30);
+		tableServicios.setRowHeight(40);
 		JTableHeader encabezadoServicios = tableServicios.getTableHeader();
 		
 		encabezadoServicios.setBackground(Color.BLACK);
 		encabezadoServicios.setForeground(Color.WHITE);
-		encabezadoServicios.setFont(new Font("Arial", Font.PLAIN, 15));
+		encabezadoServicios.setFont(new Font("Arial Black", Font.BOLD, 17));
+		encabezadoServicios.setPreferredSize(new Dimension(895, 35));
+		
+		DefaultTableCellRenderer rendererServicios = new DefaultTableCellRenderer();
+		
+		rendererServicios.setBackground(Color.BLACK);
+		rendererServicios.setForeground(Color.WHITE);
+		rendererServicios.setHorizontalAlignment(JLabel.CENTER);
+		rendererServicios.setBorder(null);
+		rendererServicios.setOpaque(true);
+		
+		encabezadoServicios.setDefaultRenderer(rendererServicios);
 		
 		JLabel lblNewLabel_1 = new JLabel("Administra los planes y servicios disponibles de Altice.");
 		lblNewLabel_1.setForeground(Color.GRAY);
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNewLabel_1.setBounds(35, 60, 650, 25);
+		lblNewLabel_1.setBounds(30, 70, 650, 25);
 		add(lblNewLabel_1);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
-		separator.setBounds(35, 95, 920, 2);
+		separator.setBounds(30, 110, 940, 2);
 		add(separator);
 
 	}
