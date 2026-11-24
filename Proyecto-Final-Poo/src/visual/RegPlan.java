@@ -51,6 +51,7 @@ public class RegPlan extends JDialog {
 		setResizable(false);
 		setTitle("Altice - Administraci\u00F3n");
 		setBounds(100, 100, 650, 700);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

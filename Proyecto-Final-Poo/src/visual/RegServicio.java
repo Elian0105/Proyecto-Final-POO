@@ -60,6 +60,7 @@ public class RegServicio extends JDialog {
 		setModal(true);
 		setTitle("Altice - Administraci\u00F3n");
 		setBounds(100, 100, 650, 850);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

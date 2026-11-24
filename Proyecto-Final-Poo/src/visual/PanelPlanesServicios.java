@@ -86,6 +86,11 @@ public class PanelPlanesServicios extends JPanel {
 		btnNuevoPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				marcarBoton(btnNuevoPlan);
+				
+				RegPlan ventana = new RegPlan();
+				
+				ventana.setVisible(true);
+				ventana.setModal(true);
 			}
 		});
 		btnNuevoPlan.setFont(new Font("Arial", Font.BOLD, 15));
@@ -99,6 +104,11 @@ public class PanelPlanesServicios extends JPanel {
 		btnNuevoServicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				marcarBoton(btnNuevoServicio);
+				
+				RegServicio ventana = new RegServicio();
+				
+				ventana.setVisible(true);
+				ventana.setModal(true);
 			}
 		});
 		btnNuevoServicio.setFont(new Font("Arial", Font.BOLD, 15));
