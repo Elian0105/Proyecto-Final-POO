@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
@@ -19,6 +21,9 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.CardLayout;
 import javax.swing.JCheckBox;
 import javax.swing.border.TitledBorder;
+
+import logico.Altice;
+
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -324,6 +329,135 @@ public class RegServicio extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnRegistrarServicio = new JButton("Registrar servicio");
+				btnRegistrarServicio.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						if(cmbTipoServicio.getSelectedIndex() == 0)
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione un tipo de servicio.");
+							return;
+						}
+						
+						if(txtNombre.getText().trim().isEmpty() || txtDescripcion.getText().trim().isEmpty() || txtPrecio.getText().trim().isEmpty())
+						{
+							JOptionPane.showMessageDialog(null, "Debe de completar todos los campos.");
+							return;
+						}
+						
+						String nombre = txtNombre.getText().trim();
+						String descripcion = txtDescripcion.getText().trim();
+						
+						float precio;
+						String mensaje = "Introduzca un precio numérico válido";
+						
+						try
+						{
+							precio = Float.parseFloat(txtPrecio.getText().trim());
+							
+						}catch(NumberFormatException s)
+						{
+							JOptionPane.showMessageDialog(null, "Introduzca un precio numérico válido.");
+							return;
+						}
+						
+						if(precio <= 0)
+						{
+							JOptionPane.showMessageDialog(null, "El precio debe ser un número mayor que cero.");
+						}
+						
+						boolean registrado = false;
+						
+						switch (cmbTipoServicio.getSelectedIndex()) {
+
+						case 1:
+
+						    if (txtTipoInternet.getText().trim().isEmpty() || txtVelocidadSubida.getText().trim().isEmpty() || txtVelocidadBajada.getText().trim().isEmpty())
+						    {
+						        JOptionPane.showMessageDialog(null, "Complete todos los campos de Internet.");
+						        return;
+						    }
+
+						    try {
+						        String tipo = txtTipoInternet.getText().trim();
+
+						        int velocidadSubida = Integer.parseInt(txtVelocidadSubida.getText().trim());
+
+						        int velocidadBajada = Integer.parseInt(txtVelocidadBajada.getText().trim());
+
+						        registrado = Altice.getInstance().registrarServicioInternet( nombre, descripcion, precio, tipo,velocidadSubida, velocidadBajada);
+
+						    }catch (NumberFormatException ex) {
+						        JOptionPane.showMessageDialog(null, "Introduzca velocidades válidas.");
+						        	return;
+						    }
+
+						    break;
+
+						case 2:
+
+						    if (txtCantidadCanales.getText().trim().isEmpty() || txtTipoConexionTV.getText().trim().isEmpty() || textField.getText().trim().isEmpty())
+						    {
+
+						        JOptionPane.showMessageDialog(null, "Complete todos los campos de Televisión.");
+						        return;
+						    }
+
+						    try {
+						        int cantidadCanales = Integer.parseInt(txtCantidadCanales.getText().trim());
+
+						        String tipoConexion = txtTipoConexionTV.getText().trim();
+
+						        int canalesHD = Integer.parseInt(textField.getText().trim());
+
+						        registrado = Altice.getInstance().registrarServicioTelevision(nombre, descripcion, precio, cantidadCanales, tipoConexion, canalesHD);
+
+						    } catch (NumberFormatException ex) 
+						    
+						    {JOptionPane.showMessageDialog(null, "Introduzca cantidades de canales válidas.");
+						        return;
+						    }
+
+						    break;
+
+						case 3:
+
+						    if (txtMinutos.getText().trim().isEmpty() || txtCantidadGB.getText().trim().isEmpty() || textField_1.getText().trim().isEmpty())
+						    {
+						        JOptionPane.showMessageDialog(null, "Complete todos los campos de Telefonía.");
+						        return;
+						    }
+
+						    try {
+						        int minutos = Integer.parseInt(txtMinutos.getText().trim());
+
+						        boolean llamadasIlimitadas = chkLLamadasIlimitadas.isSelected();
+
+						        int cantidadGB = Integer.parseInt(txtCantidadGB.getText().trim());
+
+						        int vigenciaDias = Integer.parseInt(textField_1.getText().trim());
+
+						        registrado = Altice.getInstance().registrarServicioTelefonia(nombre, descripcion, precio, minutos, llamadasIlimitadas, cantidadGB, vigenciaDias);
+
+						    } catch (NumberFormatException ex) {
+						        JOptionPane.showMessageDialog(null, "Introduzca valores numéricos válidos para Telefonía.");
+						        return;
+						    }
+
+						    break;
+						}
+						
+						if (registrado)
+						{
+						    JOptionPane.showMessageDialog(null, "Servicio registrado correctamente.");
+						    dispose();
+						    
+						} else
+						{
+						    JOptionPane.showMessageDialog(null, "Los datos del servicio no son válidos.");
+						}
+						
+					}
+				});
 				btnRegistrarServicio.setForeground(Color.WHITE);
 				btnRegistrarServicio.setBackground(Color.BLACK);
 				btnRegistrarServicio.setFont(new Font("Arial", Font.BOLD, 15));
@@ -333,6 +467,11 @@ public class RegServicio extends JDialog {
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancelar.setForeground(Color.BLACK);
 				btnCancelar.setBackground(Color.WHITE);
 				btnCancelar.setFont(new Font("Arial", Font.BOLD, 15));

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -19,6 +20,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import logico.Altice;
+import logico.Plan;
+import logico.Servicio;
+
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -134,6 +140,7 @@ public class RegPlan extends JDialog {
 		contentPanel.add(scrollPane_1);
 		
 		table = new JTable();
+		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -149,12 +156,16 @@ public class RegPlan extends JDialog {
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				true, true, false, false
+				true, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(90);
+		table.getColumnModel().getColumn(1).setPreferredWidth(110);
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		
 		table.setRowHeight(30);
 		
@@ -163,11 +174,6 @@ public class RegPlan extends JDialog {
 		encabezado.setBackground(Color.BLACK);
 		encabezado.setForeground(Color.WHITE);
 		encabezado.setFont(new Font("Arial", Font.PLAIN, 15));
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(90);
-		table.getColumnModel().getColumn(1).setPreferredWidth(110);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		scrollPane_1.setViewportView(table);
 		{
 			JPanel buttonPane = new JPanel();
@@ -177,7 +183,70 @@ public class RegPlan extends JDialog {
 				JButton btnRegistrar = new JButton("Registrar plan");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-					}
+						
+						 if (txtNombre.getText().trim().isEmpty() || txtDescripcion.getText().trim().isEmpty() || txtDescuento.getText().trim().isEmpty())
+						 {
+						       JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.");
+						       return;
+						 }
+
+						        String nombre = txtNombre.getText().trim();
+						        String descripcion = txtDescripcion.getText().trim();
+
+						        float descuento;
+
+						        try
+						        {
+						            descuento = Float.parseFloat(  txtDescuento.getText().trim());
+						        } catch (NumberFormatException ex)
+						        {
+						            JOptionPane.showMessageDialog(null, "Introduzca un descuento numérico válido.");
+						            return;
+						        }
+
+						        if (!(descuento >= 0 && descuento <= 100))
+						        {
+						            JOptionPane.showMessageDialog(null,  "El descuento debe estar entre 0 y 100.");
+						            return;
+						        }
+
+						        int duracion = (Integer) spinner.getValue();
+
+						        Plan plan = new Plan(nombre, descripcion, descuento, duracion);
+						        
+
+						        for (int i = 0; i < table.getRowCount(); i++) {
+
+						            if ((Boolean) table.getValueAt(i, 0))
+						            {
+						                String codigo = table.getValueAt(i, 1).toString();
+
+						                Servicio servicio = Altice.getInstance().buscarServicio(codigo);
+
+						                if (servicio != null && servicio.isEstado())
+						                {
+						                    plan.agregarServicio(servicio);
+						                }
+						            }
+						        }
+
+						        if (plan.getServicios().isEmpty())
+						        {
+						            JOptionPane.showMessageDialog(null, "Seleccione al menos un servicio.");
+						            return;
+						        }
+
+						        if (Altice.getInstance().registrarPlan(plan))
+						        {
+						            JOptionPane.showMessageDialog(null,  "Plan registrado correctamente.");
+
+						            dispose();
+
+						        } else
+						        {
+						            JOptionPane.showMessageDialog(null, "No se pudo registrar el plan.");
+						        }
+						    }
 				});
 				btnRegistrar.setForeground(Color.WHITE);
 				btnRegistrar.setBackground(Color.BLACK);
@@ -196,6 +265,11 @@ public class RegPlan extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setForeground(Color.BLACK);
 				cancelButton.setBackground(Color.WHITE);
 				cancelButton.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -203,5 +277,25 @@ public class RegPlan extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		cargarServicios();
+	}
+	
+	private void cargarServicios() {
+
+	    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
+	    modelo.setRowCount(0);
+
+	    for (Servicio aux : Altice.getInstance().getMisServicios()) {
+
+	        if (aux.isEstado())
+	        {
+	            Object[] fila = {false, aux.getId(), aux.getNombre(), aux.calcularPrecio()
+	            };
+
+	            modelo.addRow(fila);
+	        }
+	    }
 	}
 }

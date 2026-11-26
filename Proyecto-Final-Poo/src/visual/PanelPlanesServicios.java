@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -15,6 +17,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import logico.Altice;
+import logico.Internet;
+import logico.Plan;
+import logico.Servicio;
+import logico.Telefonia;
+import logico.Television;
+
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -87,10 +97,36 @@ public class PanelPlanesServicios extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				marcarBoton(btnNuevoPlan);
 				
+				if (Altice.getInstance().getMisServicios().isEmpty()) 
+				{
+				    JOptionPane.showMessageDialog(null, "Debe registrar al menos un servicio antes de crear un plan.");
+				    return;
+				}
+				
+				boolean hayServicios = false;
+				
+				for (Servicio aux : Altice.getInstance().getMisServicios()) {
+
+				    if (aux.isEstado()) 
+				    {
+				    	hayServicios = true;
+				        break;
+				    }
+				}
+
+				if (!hayServicios) 
+				{
+					JOptionPane.showMessageDialog(null, "Debe existir al menos un servicio activo para crear un plan.");
+				    return;
+				}
+				
+				
 				RegPlan ventana = new RegPlan();
 				
-				ventana.setVisible(true);
 				ventana.setModal(true);
+				ventana.setVisible(true);
+				
+				cargarPlanes();
 			}
 		});
 		btnNuevoPlan.setFont(new Font("Arial", Font.BOLD, 15));
@@ -107,8 +143,10 @@ public class PanelPlanesServicios extends JPanel {
 				
 				RegServicio ventana = new RegServicio();
 				
-				ventana.setVisible(true);
 				ventana.setModal(true);
+				ventana.setVisible(true);
+				
+				cargarServicios();
 			}
 		});
 		btnNuevoServicio.setFont(new Font("Arial", Font.BOLD, 15));
@@ -191,6 +229,8 @@ public class PanelPlanesServicios extends JPanel {
 
 		mostrarPlanes(true);
 		marcarBoton(btnNuevoPlan);
+		cargarPlanes();
+		cargarServicios();
 	}
 
 	private void mostrarPlanes(boolean planes) {
@@ -255,5 +295,64 @@ public class PanelPlanesServicios extends JPanel {
 			}
 		};
 		encabezado.setDefaultRenderer(renderer);
+	}
+	
+	private void cargarPlanes()
+	{
+		DefaultTableModel modelo = (DefaultTableModel) tablePlanes.getModel();
+		
+		modelo.setRowCount(0);
+		
+		for(Plan aux : Altice.getInstance().getMisPlanes())
+		{
+			String servicios = "";
+			
+			for(Servicio servicio : aux.getServicios())
+			{
+				if(!servicios.isEmpty())
+				{
+					servicios += ", ";
+				}
+				
+				servicios += servicio.getNombre();
+			}
+			
+			Object[] fila = {aux.getId(), aux.getNombre(), servicios, aux.getDescuento() + "%", aux.calcularPrecio()};
+			
+			modelo.addRow(fila);
+		}
+	}
+	
+	private void cargarServicios()
+	{
+		DefaultTableModel modelo = (DefaultTableModel) tableServicios.getModel();
+		
+		modelo.setRowCount(0);
+		
+		for(Servicio aux : Altice.getInstance().getMisServicios())
+		{
+			String tipo = "";
+			
+			if(aux instanceof Internet)
+			{
+				tipo += "Internet";
+			}
+			else if(aux instanceof Telefonia)
+			{
+				tipo += "Telefonía";
+			}
+			else if(aux instanceof Television)
+			{
+				tipo = "Televisión";
+			}
+			else
+			{
+				tipo = "No encontrado";
+			}
+			
+			Object[] fila = {aux.getId(), tipo, aux.getNombre(), aux.getDescripcion(), aux.calcularPrecio()};
+			
+			modelo.addRow(fila);
+		}
 	}
 }
