@@ -291,8 +291,7 @@ public class RegPlan extends JDialog {
 
 	        if (aux.isEstado())
 	        {
-	            Object[] fila = {false, aux.getId(), aux.getNombre(), aux.calcularPrecio()
-	            };
+	            Object[] fila = {false, aux.getId(), aux.getNombre(), aux.calcularPrecio()};
 
 	            modelo.addRow(fila);
 	        }

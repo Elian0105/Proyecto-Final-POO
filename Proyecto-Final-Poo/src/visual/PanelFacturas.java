@@ -18,6 +18,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import logico.Altice;
+import logico.Factura;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -115,6 +119,21 @@ public class PanelFacturas extends JPanel {
 		scrollPane.setViewportView(table);
 
 		marcarBoton(btnGenerarFacturas);
+		cargarFacturas();
+	}
+	
+	private void cargarFacturas()
+	{
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		
+		 modelo.setRowCount(0);
+
+		    for (Factura aux : Altice.getInstance().getMisFacturas()) {
+
+		        Object[] fila = {aux.getId(), aux.getContrato().getCliente().getNombre(), aux.getContrato().getPlan().getNombre(), aux.getTotal(),  aux.isPagado() ? "Pagada" : "Pendiente"};
+
+		        modelo.addRow(fila);
+		    }
 	}
 
 	private void marcarBoton(JButton elegido) {
