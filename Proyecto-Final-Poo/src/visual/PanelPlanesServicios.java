@@ -41,11 +41,7 @@ public class PanelPlanesServicios extends JPanel {
 	private JScrollPane scrollPlanes;
 	private JScrollPane scrollServicios;
 
-	/**
-	 * Create the panel.
-	 */
 	public PanelPlanesServicios() {
-		setSize(1000, 650);
 		setBackground(Color.WHITE);
 		setLayout(null);
 
@@ -121,7 +117,7 @@ public class PanelPlanesServicios extends JPanel {
 				}
 				
 				
-				RegPlan ventana = new RegPlan();
+				RegPlan ventana = new RegPlan(); 
 				
 				ventana.setModal(true);
 				ventana.setVisible(true);
@@ -170,7 +166,6 @@ public class PanelPlanesServicios extends JPanel {
 		add(btnEliminar);
 
 		scrollPlanes = new JScrollPane();
-		scrollPlanes.setBounds(30, 245, 940, 370);
 		scrollPlanes.getViewport().setBackground(Color.WHITE);
 		scrollPlanes.setBorder(new LineBorder(new Color(204, 204, 204)));
 		add(scrollPlanes);
@@ -180,7 +175,7 @@ public class PanelPlanesServicios extends JPanel {
 				new Object[][] {
 				},
 				new String[] {
-						"Código", "Nombre", "Servicios", "Descuento", "Precio mensual"
+						"C\u00F3digo", "Nombre", "Servicios", "Descuento", "Precio mensual"
 				}
 				) {
 			boolean[] columnEditables = new boolean[] {
@@ -199,7 +194,6 @@ public class PanelPlanesServicios extends JPanel {
 		scrollPlanes.setViewportView(tablePlanes);
 
 		scrollServicios = new JScrollPane();
-		scrollServicios.setBounds(30, 245, 940, 370);
 		scrollServicios.getViewport().setBackground(Color.WHITE);
 		scrollServicios.setBorder(new LineBorder(new Color(204, 204, 204)));
 		add(scrollServicios);
@@ -209,7 +203,7 @@ public class PanelPlanesServicios extends JPanel {
 				new Object[][] {
 				},
 				new String[] {
-						"Código", "Tipo", "Nombre", "Descripción", "Precio"
+						"C\u00F3digo", "Tipo", "Nombre", "Descripci\u00F3n", "Precio"
 				}
 				) {
 			boolean[] columnEditables = new boolean[] {
@@ -231,6 +225,19 @@ public class PanelPlanesServicios extends JPanel {
 		marcarBoton(btnNuevoPlan);
 		cargarPlanes();
 		cargarServicios();
+	}
+
+	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		int margin = 30;
+		int contentW = width - 2 * margin;
+		int contentH = height - 245;
+		for (Component c : getComponents()) {
+			if (c instanceof JSeparator) c.setBounds(margin, 157, contentW, 2);
+			if (c == scrollPlanes || c == scrollServicios) c.setBounds(margin, 245, contentW, contentH);
+		}
 	}
 
 	private void mostrarPlanes(boolean planes) {
@@ -339,11 +346,11 @@ public class PanelPlanesServicios extends JPanel {
 			}
 			else if(aux instanceof Telefonia)
 			{
-				tipo += "Telefonía";
+				tipo += "Telefon\u00EDa";
 			}
 			else if(aux instanceof Television)
 			{
-				tipo = "Televisión";
+				tipo = "Televisi\u00F3n";
 			}
 			else
 			{

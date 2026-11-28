@@ -29,12 +29,8 @@ public class PanelFacturas extends JPanel {
 	private JTable table;
 	private JButton btnGenerarFacturas;
 	private JButton btnPagarFactura;
-
-	/**
-	 * Create the panel.
-	 */
+	private JScrollPane scrollPane; 
 	public PanelFacturas() {
-		setSize(1000, 650);
 		setBackground(Color.WHITE);
 		setLayout(null);
 
@@ -89,8 +85,7 @@ public class PanelFacturas extends JPanel {
 		btnPagarFactura.setBounds(245, 135, 180, 45);
 		add(btnPagarFactura);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(30, 200, 940, 415);
+		scrollPane = new JScrollPane();  // GUARDAR EN CAMPO
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		scrollPane.setBorder(new LineBorder(new Color(204, 204, 204)));
 		add(scrollPane);
@@ -100,7 +95,7 @@ public class PanelFacturas extends JPanel {
 				new Object[][] {
 				},
 				new String[] {
-						"Código", "Cliente", "Plan", "Total", "Estado"
+						"C\u00F3digo", "Cliente", "Plan", "Total", "Estado"
 				}
 				) {
 			boolean[] columnEditables = new boolean[] {
@@ -121,19 +116,32 @@ public class PanelFacturas extends JPanel {
 		marcarBoton(btnGenerarFacturas);
 		cargarFacturas();
 	}
-	
+
+
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		int margin = 30;
+		int contentW = width - 2 * margin;
+		int contentH = height - 200;
+		for (Component c : getComponents()) {
+			if (c instanceof JSeparator) c.setBounds(margin, 110, contentW, 2);
+			if (c instanceof JScrollPane) c.setBounds(margin, 200, contentW, contentH);
+		}
+	}
+
 	private void cargarFacturas()
 	{
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		
-		 modelo.setRowCount(0);
 
-		    for (Factura aux : Altice.getInstance().getMisFacturas()) {
+		modelo.setRowCount(0);
 
-		        Object[] fila = {aux.getId(), aux.getContrato().getCliente().getNombre(), aux.getContrato().getPlan().getNombre(), aux.getTotal(),  aux.isPagado() ? "Pagada" : "Pendiente"};
+		for (Factura aux : Altice.getInstance().getMisFacturas()) {
 
-		        modelo.addRow(fila);
-		    }
+			Object[] fila = {aux.getId(), aux.getContrato().getCliente().getNombre(), aux.getContrato().getPlan().getNombre(), aux.getTotal(),  aux.isPagado() ? "Pagada" : "Pendiente"};
+
+			modelo.addRow(fila);
+		}
 	}
 
 	private void marcarBoton(JButton elegido) {
@@ -180,5 +188,4 @@ public class PanelFacturas extends JPanel {
 		};
 		encabezado.setDefaultRenderer(renderer);
 	}
-
 }

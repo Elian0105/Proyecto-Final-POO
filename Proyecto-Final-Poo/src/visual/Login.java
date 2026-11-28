@@ -40,9 +40,6 @@ public class Login extends JFrame {
 	private JTextField txtUsuario;
 	private JPasswordField txtContrasena;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			FileInputStream archivo = new FileInputStream("altice.dat");
@@ -75,14 +72,13 @@ public class Login extends JFrame {
 			}
 		});                         
 	}
-	/**
-	 * Create the frame.
-	 */
+
 	public Login() {
 		setResizable(false);
 		setTitle("Altice - Iniciar sesi\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 420, 420);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -131,7 +127,7 @@ public class Login extends JFrame {
 				String contrasena = new String(txtContrasena.getPassword());
 				Empleado emp = Altice.getInstance().login(usuario, contrasena);
 				if(emp == null) {
-					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Usuario o contrase\u00F1a incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					if(emp instanceof Administrativo) {
@@ -171,5 +167,4 @@ public class Login extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
 }
