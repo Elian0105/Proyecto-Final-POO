@@ -134,6 +134,7 @@ public class RegServicio extends JDialog {
 		cmbTipoServicio.setModel(new DefaultComboBoxModel(new String[] {"Seleccione un tipo de servicio", "Internet", "Televisi\u00F3n", "Telefon\u00EDa"}));
 		cmbTipoServicio.setFont(new Font("Arial", Font.PLAIN, 15));
 		cmbTipoServicio.setBounds(30, 150, 580, 35);
+		cmbTipoServicio.setFocusable(false);
 		contentPanel.add(cmbTipoServicio);
 		
 		JLabel lblNewLabel_3 = new JLabel("Nombre");

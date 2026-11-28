@@ -642,4 +642,53 @@ public class Altice implements Serializable {
 		
 		return cliente.facturasPendiente();
 	}
+	
+	public Contrato buscarContrato(String id)
+	{
+		int i = 0;
+		Contrato contrato = null;
+		boolean encontrado = false;
+		
+		while(!encontrado && i < misContratos.size())
+		{
+			if(misContratos.get(i).getId().equalsIgnoreCase(id))
+			{
+				contrato = misContratos.get(i);
+				encontrado = true;
+			}
+			
+			i++;
+		}
+		
+		return contrato;
+	}
+	
+	public boolean cancelarContrato(String id)
+	{
+		Contrato contrato = buscarContrato(id);
+		
+		if(contrato == null || !contrato.isEstado())
+		{
+			return false;
+		}
+		
+		if(!(loginUser instanceof Comercial) || !loginUser.isEstado())
+		{
+			return false;
+		}
+		
+		if(contrato.getComercial() != loginUser)
+		{
+			return false;
+		}
+		
+		if(contrato.getCliente().facturasPendientesContrato(contrato) > 0)
+		{
+			return false;
+		}
+		
+		contrato.setEstado(false);
+		
+		return true;
+	}
 }

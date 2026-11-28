@@ -140,6 +140,7 @@ public class RegPlan extends JDialog {
 		contentPanel.add(scrollPane_1);
 		
 		table = new JTable();
+		table.setShowVerticalLines(false);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(
