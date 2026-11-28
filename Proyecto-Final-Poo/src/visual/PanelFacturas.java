@@ -85,7 +85,7 @@ public class PanelFacturas extends JPanel {
 		btnPagarFactura.setBounds(245, 135, 180, 45);
 		add(btnPagarFactura);
 
-		scrollPane = new JScrollPane();  // GUARDAR EN CAMPO
+		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		scrollPane.setBorder(new LineBorder(new Color(204, 204, 204)));
 		add(scrollPane);
